@@ -6,14 +6,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
-public class OfferServiceModel {
+public class OfferRegisterServiceModel {
 
     private String id;
     private BigDecimal apartmentRent;
     private String apartmentType;
     private BigDecimal agencyCommission;
 
-    public OfferServiceModel() {
+    public OfferRegisterServiceModel() {
     }
 
     public String getId() {

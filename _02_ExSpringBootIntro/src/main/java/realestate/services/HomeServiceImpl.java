@@ -3,8 +3,7 @@ package realestate.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import realestate.domain.entities.Offer;
-import realestate.domain.models.service.OfferServiceModel;
+import realestate.domain.models.service.OfferRegisterServiceModel;
 import realestate.repositories.OfferRepository;
 
 import java.util.List;
@@ -23,10 +22,10 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public List<OfferServiceModel> findAllOffers() {
-        List<OfferServiceModel> allOffers = this.offerRepository.findAll()
+    public List<OfferRegisterServiceModel> findAllOffers() {
+        List<OfferRegisterServiceModel> allOffers = this.offerRepository.findAll()
                 .stream()
-                .map(o-> this.modelMapper.map(o, OfferServiceModel.class))
+                .map(o-> this.modelMapper.map(o, OfferRegisterServiceModel.class))
                 .collect(Collectors.toList());
         return allOffers;
     }
