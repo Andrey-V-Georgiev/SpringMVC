@@ -1,8 +1,6 @@
 package org.softuni.residentevil.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "capitals")
@@ -41,4 +39,5 @@ public class Capital extends BaseEntity {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
 }

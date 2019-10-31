@@ -133,7 +133,7 @@ public class Virus extends BaseEntity {
         this.releasedOn = releasedOn;
     }
 
-    @OneToMany(targetEntity = Capital.class)
+    @ManyToMany(targetEntity = Capital.class)
     @JoinTable(
             name = "viruses_capitals",
             joinColumns = @JoinColumn(name = "virus_id", referencedColumnName = "id"),

@@ -2,8 +2,10 @@ package org.softuni.residentevil.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.models.binding_models.VirusBindingModel;
+import org.softuni.residentevil.domain.models.service_models.VirusServiceModel;
 import org.softuni.residentevil.domain.models.view_models.CapitalViewModel;
 import org.softuni.residentevil.services.CapitalService;
+import org.softuni.residentevil.services.VirusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,12 +23,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/viruses")
 public class VirusController extends BaseController {
 
-    private CapitalService capitalService;
-    private ModelMapper modelMapper;
+    private final CapitalService capitalService;
+    private final VirusService virusService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public VirusController(CapitalService capitalService, ModelMapper modelMapper) {
+    public VirusController(CapitalService capitalService, VirusService virusService, ModelMapper modelMapper) {
         this.capitalService = capitalService;
+        this.virusService = virusService;
         this.modelMapper = modelMapper;
     }
 
@@ -50,6 +54,9 @@ public class VirusController extends BaseController {
             modelAndView.addObject("virusBindingModel", virusBindingModel);
             return super.view("add-virus", modelAndView);
         }
+
+        this.virusService.saveVirus(this.modelMapper.map(virusBindingModel, VirusServiceModel.class));
+
         return super.redirect("/");
     }
 }
