@@ -4,7 +4,7 @@ import org.softuni.residentevil.domain.entities.Capital;
 import org.softuni.residentevil.domain.entities.Creator;
 import org.softuni.residentevil.domain.entities.Magnitude;
 import org.softuni.residentevil.domain.entities.Mutation;
-import org.softuni.residentevil.validation.CreatorFormat;
+import org.softuni.residentevil.web.validation.CreatorFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Max;

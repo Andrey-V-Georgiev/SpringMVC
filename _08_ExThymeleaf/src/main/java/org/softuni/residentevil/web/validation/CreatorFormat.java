@@ -1,4 +1,4 @@
-package org.softuni.residentevil.validation;
+package org.softuni.residentevil.web.validation;
 
 
 import javax.validation.Constraint;
