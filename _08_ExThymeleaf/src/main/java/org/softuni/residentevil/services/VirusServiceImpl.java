@@ -38,4 +38,45 @@ public class VirusServiceImpl implements VirusService {
                 .map(v -> this.modelMapper.map(v, VirusServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public VirusServiceModel findById(String id) {
+        return this.virusRepository.findById(id)
+                .stream()
+                .map(v -> this.modelMapper.map(v, VirusServiceModel.class))
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        try {
+            this.virusRepository.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Something went wrong!");
+        }
+
+    }
+
+    @Override
+    public void editVirus(VirusServiceModel virusServiceModel, String id) {
+        VirusServiceModel oldVirusServiceModel = this.modelMapper
+                .map(this.virusRepository.findById(id), VirusServiceModel.class);
+        //getTypeMAp()
+        oldVirusServiceModel.setId(id);
+        oldVirusServiceModel.setName(virusServiceModel.getName());
+        oldVirusServiceModel.setDescription(virusServiceModel.getDescription());
+        oldVirusServiceModel.setSideEffects(virusServiceModel.getSideEffects());
+        oldVirusServiceModel.setCreator(virusServiceModel.getCreator());
+        oldVirusServiceModel.setDeadly(virusServiceModel.getDeadly());
+        oldVirusServiceModel.setCurable(virusServiceModel.getCurable());
+        oldVirusServiceModel.setMutation(virusServiceModel.getMutation());
+        oldVirusServiceModel.setTurnoverRate(virusServiceModel.getTurnoverRate());
+        oldVirusServiceModel.setHoursUntilTurn(virusServiceModel.getHoursUntilTurn());
+        oldVirusServiceModel.setMagnitude(virusServiceModel.getMagnitude());
+        oldVirusServiceModel.setReleasedOn(virusServiceModel.getReleasedOn());
+        oldVirusServiceModel.setCapitals(virusServiceModel.getCapitals());
+
+        this.virusRepository.save(this.modelMapper.map(oldVirusServiceModel, Virus.class));
+    }
 }

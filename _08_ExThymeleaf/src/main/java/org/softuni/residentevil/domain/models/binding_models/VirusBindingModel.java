@@ -4,8 +4,11 @@ import org.softuni.residentevil.domain.entities.Capital;
 import org.softuni.residentevil.domain.entities.Creator;
 import org.softuni.residentevil.domain.entities.Magnitude;
 import org.softuni.residentevil.domain.entities.Mutation;
+import org.softuni.residentevil.validation.CreatorFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -39,6 +42,8 @@ public class VirusBindingModel {
         this.name = name;
     }
 
+    @NotNull
+    @Size(min = 5, max = 100)
     public String getDescription() {
         return description;
     }
@@ -47,6 +52,8 @@ public class VirusBindingModel {
         this.description = description;
     }
 
+    @NotNull
+    @Size(max = 50)
     public String getSideEffects() {
         return sideEffects;
     }
@@ -55,6 +62,7 @@ public class VirusBindingModel {
         this.sideEffects = sideEffects;
     }
 
+    @CreatorFormat
     public Creator getCreator() {
         return creator;
     }
@@ -87,6 +95,9 @@ public class VirusBindingModel {
         this.mutation = mutation;
     }
 
+    @NotNull
+    @Min(0)
+    @Max(100)
     public Integer getTurnoverRate() {
         return turnoverRate;
     }
@@ -95,6 +106,9 @@ public class VirusBindingModel {
         this.turnoverRate = turnoverRate;
     }
 
+    @NotNull
+    @Min(1)
+    @Max(12)
     public Integer getHoursUntilTurn() {
         return hoursUntilTurn;
     }

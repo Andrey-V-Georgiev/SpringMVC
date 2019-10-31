@@ -34,10 +34,10 @@
                             <td class="col-md-2" th:text="${virus.magnitude}"></td>
                             <td class="col-md-2" th:text="${virus.releasedOn}"> </td>
                             <td class="col-md-2">
-                                <a class="btn btn-light" th:text="Edit" th:href="@{/viruses/{id}(id=${virus.id})}"></a>
+                                <a class="btn btn-light" th:text="Edit" th:href="@{/viruses/edit/{id}(id=${virus.id})}"></a>
                             </td>
                             <td class="col-md-2">
-                                <a class="btn btn-light" th:text="Delete" th:href="@{/viruses/{id}(id=${virus.id})}"></a>
+                                <a class="btn btn-light" th:text="Delete" th:href="@{/viruses/delete/{id}(id=${virus.id})}"></a>
                             </td>
                         </tr>
                     </th:block>
