@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.models.binding_models.VirusBindingModel;
 import org.softuni.residentevil.domain.models.service_models.VirusServiceModel;
 import org.softuni.residentevil.domain.models.view_models.CapitalViewModel;
+import org.softuni.residentevil.domain.models.view_models.VirusViewModel;
 import org.softuni.residentevil.services.CapitalService;
 import org.softuni.residentevil.services.VirusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,14 @@ public class VirusController extends BaseController {
         this.virusService.saveVirus(this.modelMapper.map(virusBindingModel, VirusServiceModel.class));
 
         return super.redirect("/");
+    }
+
+    @GetMapping("/show")
+    public ModelAndView show(ModelAndView modelAndView) {
+        List<VirusViewModel> virusViewModels = this.virusService.findAll().stream()
+                .map(v -> this.modelMapper.map(v, VirusViewModel.class))
+                .collect(Collectors.toList());
+        modelAndView.addObject("virusViewModels", virusViewModels);
+        return super.view("all-viruses", modelAndView);
     }
 }
