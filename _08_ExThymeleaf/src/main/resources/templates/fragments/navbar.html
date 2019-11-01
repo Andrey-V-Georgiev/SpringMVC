@@ -6,43 +6,35 @@
 </head>
 <body>
 <th:block th:fragment>
-    <nav class="navbar navbar-expand-lg navbar-light re-background">
+    <nav class="navbar navbar-expand-lg navbar-light re-background d-flex bd-highlight">
 
-        <a class="btn-lg nav-link text-white" th:href="@{/}">Resident Evil</a>
+            <div class="p-2 flex-grow-1 bd-highlight">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-lg btn-secondary" th:href="@{/home}">Resident Evil</a>
+                    <th:block th:if="${principal !=null}">
+                            <a th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add Virus</a>
+                            <a th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show All</a>
+                    </th:block>
+                </div>
+
+            </div>
+            <div class="p-2 bd-highlight">
+
                 <th:block th:if="${principal !=null}">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            Viruses
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" th:href="@{/viruses/show}">Show</a>
-                            <a class="dropdown-item" th:href="@{/viruses/add}">Add</a>
-                        </div>
-                    </li>
-                    <li class="nav-item active">
-                        <form th:action="@{/logout}" th:method="post">
-                            <button class="btn btn-secondary">Logout</button>
-                        </form>
-                    </li>
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn btn-lg btn-secondary">Logout</button>
+                    </form>
                 </th:block>
                 <th:block th:if="${principal == null}">
-                    <li class="nav-item active">
-                        <a class="nav-link text-white" th:href="@{/login}">Login</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link text-white" th:href="@{/register}">Register <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
+                        <a th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
+                    </div>
                 </th:block>
 
-            </ul>
-        </div>
+            </div>
+
     </nav>
 </th:block>
 </body>

@@ -33,22 +33,23 @@ public class VirusController {
     }
 
     @GetMapping("/viruses/add")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ModelAndView add(@ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel, ModelAndView modelAndView) {
+    public ModelAndView add(@ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
+                            ModelAndView modelAndView) {
+
         modelAndView.addObject("capitals", capitals());
         modelAndView.addObject("virusBindingModel", virusAddBindingModel);
-        modelAndView.setViewName("add-virus");
+        modelAndView.setViewName("add");
         return modelAndView;
     }
 
     @PostMapping("/viruses/add")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ModelAndView addConfirm(@Valid @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
+    public ModelAndView addConfirm(@Valid
+                                   @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                    BindingResult bindingResult, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusBindingModel", virusAddBindingModel);
             modelAndView.addObject("capitals", capitals());
-            modelAndView.setViewName("add-virus");
+            modelAndView.setViewName("add");
             return modelAndView;
         }
 
@@ -64,12 +65,11 @@ public class VirusController {
                 .map(v -> this.modelMapper.map(v, VirusViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("virusViewModels", virusViewModels);
-        modelAndView.setViewName("all-virus");
+        modelAndView.setViewName("all_virus");
         return modelAndView;
     }
 
     @GetMapping("/viruses/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView deleteVirus(@PathVariable("id") String id, ModelAndView modelAndView) {
         try {
             this.virusService.deleteById(id);
@@ -81,7 +81,6 @@ public class VirusController {
     }
 
     @GetMapping("/viruses/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView editVirus(@PathVariable("id") String id,
                                   @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
@@ -92,13 +91,12 @@ public class VirusController {
 
         modelAndView.addObject("capitals", capitals);
         modelAndView.addObject("virusServiceModel", this.virusService.findById(id));
-        modelAndView.setViewName("edit-virus");
         modelAndView.addObject("virusBindingModel", virusAddBindingModel);
+        modelAndView.setViewName("edit");
         return modelAndView;
     }
 
     @PostMapping("/viruses/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView editVirusConfirm(@Valid
                                          @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                          @PathVariable("id") String id,
@@ -106,16 +104,16 @@ public class VirusController {
                                          ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusBindingModel", virusAddBindingModel);
-            modelAndView.setViewName("edit-virus");
+            modelAndView.setViewName("edit");
             return modelAndView;
         }
         this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), id);
-        modelAndView.setViewName("/viruses/show");
+        modelAndView.setViewName("edit_view");
         return modelAndView;
     }
 
-    public List<CapitalViewModel> capitals() {
-       return  this.capitalService.findAllCapitals()
+    private List<CapitalViewModel> capitals() {
+        return this.capitalService.findAllCapitals()
                 .stream()
                 .map(c -> this.modelMapper.map(c, CapitalViewModel.class))
                 .collect(Collectors.toList());
