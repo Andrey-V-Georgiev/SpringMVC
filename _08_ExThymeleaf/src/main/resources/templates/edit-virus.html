@@ -13,7 +13,7 @@
     <main class="d-flex justify-content-center mt-3">
         <div class="col-md-8">
             <h1>Edit virus!</h1>
-            <form th:action="@{/viruses/edit/{id}(id=${virusServiceModel.getId()})}" method="post" th:object="${virusBindingModel}">
+            <form th:action="@{/viruses/edit/{id}(id=${virusServiceModel.getId()})}" method="post" th:object="${virusAddBindingModel}">
                 <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
                     <label for="name">Name</label>
                     <input th:field="*{name}"  th:placeholder="${virusServiceModel.getName()}" type="text" class="form-control" id="name">

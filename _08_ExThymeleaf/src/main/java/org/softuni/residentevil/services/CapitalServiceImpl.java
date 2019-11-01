@@ -3,6 +3,7 @@ package org.softuni.residentevil.services;
 import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.models.service_models.CapitalServiceModel;
 import org.softuni.residentevil.repositories.CapitalRepository;
+import org.softuni.residentevil.services.CapitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.entities.Virus;
 import org.softuni.residentevil.domain.models.service_models.VirusServiceModel;
 import org.softuni.residentevil.repositories.VirusRepository;
+import org.softuni.residentevil.services.VirusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

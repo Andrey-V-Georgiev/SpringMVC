@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-public class VirusBindingModel {
+public class VirusAddBindingModel {
 
     private String name;
     private String description;
@@ -29,7 +29,7 @@ public class VirusBindingModel {
     private LocalDate releasedOn;
     private List<Capital> capitals;
 
-    public VirusBindingModel() {
+    public VirusAddBindingModel() {
     }
 
     @NotNull
