@@ -37,7 +37,7 @@
                 <div class="form-group" th:classappend="${#fields.hasErrors('creator')} ? 'text-danger'">
                     <label for="creator">Creator</label>
                     <input th:field="*{creator}" type="text" class="form-control" id="creator">
-                    <small th:each="error : ${#fields.errors('creator')}" th:text="${error}"></small>
+                    <small id="nameHelp"  th:text="*{'Creator must be  Corp  or corp'}"></small>
                 </div>
 
                 <div class="form-check">

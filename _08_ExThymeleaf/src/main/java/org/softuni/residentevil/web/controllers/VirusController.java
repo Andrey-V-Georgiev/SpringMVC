@@ -1,5 +1,6 @@
 package org.softuni.residentevil.web.controllers;
 
+import org.hibernate.validator.constraints.Range;
 import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.models.binding_models.VirusAddBindingModel;
 import org.softuni.residentevil.domain.models.service_models.VirusServiceModel;
@@ -10,6 +11,7 @@ import org.softuni.residentevil.services.VirusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,8 +80,8 @@ public class VirusController extends BaseController {
         return super.redirectTo("redirect:/viruses/show", modelAndView);
     }
 
-    @GetMapping("/edit/{id}")
-    public ModelAndView editVirus(@PathVariable("id") String id,
+    @GetMapping("/edit/{virusID}")
+    public ModelAndView editVirus(@PathVariable("virusID") String virusID,
                                   @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
 
@@ -89,26 +91,28 @@ public class VirusController extends BaseController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("capitals", capitals);
-        modelAndView.addObject("virusServiceModel", this.virusService.findById(id));
+        modelAndView.addObject("virusID", virusID);
 
-        virusAddBindingModel = this.modelMapper.map(this.virusService.findById(id), VirusAddBindingModel.class);
+        virusAddBindingModel = this.modelMapper.map(this.virusService.findById(virusID), VirusAddBindingModel.class);
         modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
         return super.loadView("edit-virus", modelAndView);
     }
 
-    @PostMapping("/edit/{id}")
-    public ModelAndView editVirusConfirm(@Valid
+    @PostMapping("/edit/{virusID}")
+    public ModelAndView editVirusConfirm(@PathVariable("virusID") String virusID,
+                                         @Valid
                                          @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
-                                         @PathVariable("id") String id,
                                          BindingResult bindingResult,
                                          ModelAndView modelAndView) {
+
+        modelAndView.addObject("virusID", virusID);
+
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
+            modelAndView.addObject("capitals", capitals());
             return super.loadView("edit-virus", modelAndView);
         }
-
-        VirusServiceModel virusServiceModel = this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class);
-        this.virusService.editVirus(virusServiceModel, id);
+        this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), virusID);
         return super.redirectTo("redirect:/viruses/show", modelAndView);
     }
 

@@ -13,45 +13,53 @@
     <main class="d-flex justify-content-center mt-3">
         <div class="col-md-8">
             <h1>Edit virus!</h1>
-            <form th:action="@{/viruses/edit/{id}(id=${virusServiceModel.getId()})}" method="post" th:object="${virusAddBindingModel}">
+            <form th:action="@{/viruses/edit/{id}(id=${virusID})}" method="post" th:object="${virusAddBindingModel}">
+
                 <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">
                     <label for="name">Name</label>
                     <input th:field="*{name}" type="text" class="form-control" id="name">
                     <small id="nameHelp" th:each="error : ${#fields.errors('name')}" th:text="${error}"></small>
                 </div>
-                <div class=" form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'text-danger'">
                     <label for="description">Description</label>
                     <textarea th:field="*{description}" class="form-control" id="description" rows="3"></textarea>
                     <small id="nameHelp" th:each="error : ${#fields.errors('description')}" th:text="${error}"></small>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('sideEffects')} ? 'text-danger'">
                     <label for="side_effects">Side Effects</label>
                     <input th:field="*{sideEffects}" type="text" class="form-control" id="side_effects">
                     <small id="nameHelp" th:each="error : ${#fields.errors('sideEffects')}" th:text="${error}"></small>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('creator')} ? 'text-danger'">
                     <label for="creator">Creator</label>
                     <input th:field="*{creator}" type="text" class="form-control" id="creator">
-                    <small id="nameHelp" th:each="error : ${#fields.errors('creator')}" th:text="${error}"></small>
+                    <small id="nameHelp"  th:text="*{'Creator must be  Corp  or corp'}"></small>
                 </div>
+
                 <div class="form-check">
                     <input th:field="*{deadly}" class="form-check-input" type="checkbox" id="deadly" }>
                     <label class="form-check-label" for="deadly">
                         Is Deadly?
                     </label>
                 </div>
+
                 <div class="form-check">
                     <input th:field="*{curable}" class="form-check-input" type="checkbox" id="curable">
                     <label class="form-check-label" for="curable">
                         Is Curable?
                     </label>
                 </div>
+
                 <th:block th:each="mutation : ${T(org.softuni.residentevil.domain.entities.Mutation).values()}" >
                     <div class="form-check">
                         <input th:field="*{mutation}" th:value="${mutation}" class="form-check-input" type="radio" name="zombie" >
                         <label class="form-check-label" th:text="${mutation}"></label>
                     </div>
                 </th:block>
+
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="save_humanity" id="save_humanity" value="option4"
                            disabled>
@@ -60,28 +68,32 @@
                     </label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" th:classappend="${#fields.hasErrors('turnoverRate')} ? 'text-danger'">
                     <label for="turnover_rate">Turnover Rate</label>
                     <input th:field="*{turnoverRate}" type="number" class="form-control" id="turnover_rate">
                     <small id="nameHelp" th:each="error : ${#fields.errors('turnoverRate')}" th:text="${error}"></small>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'text-danger'">
                     <label for="hours_until_turn">Hours Until Turn</label>
                     <input th:field="*{hoursUntilTurn}" type="number" class="form-control" id="hours_until_turn">
                     <small id="nameHelp" th:each="error : ${#fields.errors('hoursUntilTurn')}" th:text="${error}"></small>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('magnitude')} ? 'text-danger'">
                     <label for="magnitude">Magnitude</label>
                     <select class="form-control" id="magnitude" th:field="*{magnitude}">
                         <option th:each="magnitude : ${T(org.softuni.residentevil.domain.entities.Magnitude).values()}"
                                 th:value="${magnitude}" th:text="${magnitude}"></option>
                     </select>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('releasedOn')} ? 'text-danger'">
                     <label for="release_date">Release Date</label>
                     <input th:field="*{releasedOn}" type="date" class="form-control" id="release_date">
                     <small id="nameHelp" th:each="error : ${#fields.errors('releasedOn')}" th:text="${error}"></small>
                 </div>
+
                 <div class="form-group">
                     <label for="affected_capitals">Affected Capitals</label>
                     <select multiple class="form-control" id="affected_capitals" th:field="*{capitals}">

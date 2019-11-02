@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.METHOD })
 @Constraint(validatedBy = CreatorFormatValidator.class)
 public @interface CreatorFormat {
     String message() default "Creator must be 'Corp' or 'corp'! ";
