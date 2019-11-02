@@ -33,6 +33,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
+
+        http.exceptionHandling()
+                .accessDeniedPage("/unauthorized");
     }
 
     @Override

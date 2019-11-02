@@ -9,28 +9,24 @@
     <nav class="navbar navbar-expand-lg navbar-light re-background d-flex bd-highlight">
         <div class="p-2 flex-grow-1 bd-highlight">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <div sec:authorize="isAnonymous()">
-                    <a class="btn btn-lg btn-secondary" th:href="@{/}">Resident Evil</a>
-                </div>
-                <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/home}" class="btn btn-lg btn-secondary">Home</a>
-                    <a th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add Virus</a>
-                    <a th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show All</a>
-                </div>
+                <a sec:authorize="isAnonymous()" class="btn btn-lg btn-secondary" th:href="@{/}">Resident Evil</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/home}" class="btn btn-lg btn-secondary">Home</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add
+                    Virus</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show
+                    All</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/users}" class="btn btn-lg btn-success">Users</a>
             </div>
         </div>
-        <div class="p-2 bd-highlight">
-            <div sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" th:method="post">
-                    <button class="btn btn-lg btn-secondary">Logout</button>
-                </form>
+        <div class="p-3 bd-highlight d-flex align-items-stretch">
+            <form th:action="@{/logout}" th:method="post" >
+                <button sec:authorize="isAuthenticated()" class="btn btn-lg btn-secondary">Logout</button>
+            </form>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
             </div>
-            <div sec:authorize="isAnonymous()">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <a th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
-                    <a th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
-                </div>
-            </div>
+        </div>
         </div>
     </nav>
 </th:block>

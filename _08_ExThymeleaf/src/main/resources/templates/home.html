@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
     <title>Home</title>
 </head>
+
 <body>
 <div class="container-fluid">
     <header>
         <th:block th:include="~{fragments/navbar}"></th:block>
     </header>
+    <main class="d-flex justify-content-center">
+        <div class="jumbotron mt-md-5 col-md-10 justify-content-center">
 
-    <main>
-        <div class="jumbotron re-background mt-3">
-
-            <h1 class="display-4 font-weight-normal">Home Page</h1>
+            <h1 class="display-4 font-weight-normal text-center">Home Page</h1>
             <hr class="my-4">
-            <p>Resident Evil is a system that register virus spread across the world</p>
+            <p class="text-center">Resident Evil is a system that register virus spread across the world</p>
         </div>
     </main>
+
 </div>
 </body>
 </html>
