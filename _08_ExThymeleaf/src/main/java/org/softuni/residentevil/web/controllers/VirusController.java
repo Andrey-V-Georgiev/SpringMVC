@@ -7,6 +7,7 @@ import org.softuni.residentevil.domain.models.view_models.CapitalViewModel;
 import org.softuni.residentevil.domain.models.view_models.VirusViewModel;
 import org.softuni.residentevil.services.CapitalService;
 import org.softuni.residentevil.services.VirusService;
+import org.softuni.residentevil.web.Pesho;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/viruses")
 public class VirusController {
 
     private final CapitalService capitalService;
@@ -32,17 +34,16 @@ public class VirusController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/viruses/add")
-    public ModelAndView add(@ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
+    @GetMapping("/add")
+    public ModelAndView add(@ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                             ModelAndView modelAndView) {
-
         modelAndView.addObject("capitals", capitals());
-        modelAndView.addObject("virusBindingModel", virusAddBindingModel);
+        modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
         modelAndView.setViewName("add");
         return modelAndView;
     }
 
-    @PostMapping("/viruses/add")
+    @PostMapping("/add")
     public ModelAndView addConfirm(@Valid
                                    @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                    BindingResult bindingResult, ModelAndView modelAndView) {
@@ -58,18 +59,17 @@ public class VirusController {
         return modelAndView;
     }
 
-    @GetMapping("/viruses/show")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/show")
     public ModelAndView show(ModelAndView modelAndView) {
         List<VirusViewModel> virusViewModels = this.virusService.findAll().stream()
                 .map(v -> this.modelMapper.map(v, VirusViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("virusViewModels", virusViewModels);
-        modelAndView.setViewName("all_virus");
+        modelAndView.setViewName("all");
         return modelAndView;
     }
 
-    @GetMapping("/viruses/delete/{id}")
+    @GetMapping("/delete/{id}")
     public ModelAndView deleteVirus(@PathVariable("id") String id, ModelAndView modelAndView) {
         try {
             this.virusService.deleteById(id);
@@ -80,7 +80,7 @@ public class VirusController {
         return modelAndView;
     }
 
-    @GetMapping("/viruses/edit/{id}")
+    @GetMapping("/edit/{id}")
     public ModelAndView editVirus(@PathVariable("id") String id,
                                   @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
@@ -96,7 +96,7 @@ public class VirusController {
         return modelAndView;
     }
 
-    @PostMapping("/viruses/edit/{id}")
+    @PostMapping("/edit/{id}")
     public ModelAndView editVirusConfirm(@Valid
                                          @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
                                          @PathVariable("id") String id,

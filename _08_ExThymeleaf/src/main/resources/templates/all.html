@@ -27,6 +27,7 @@
                 </thead>
 
                 <tbody>
+
                     <th:block th:each="virus : ${virusViewModels}">
                         <tr class="row">
                             <td class="col-md-2" th:text="${virus.id}"> </td>
@@ -41,6 +42,7 @@
                             </td>
                         </tr>
                     </th:block>
+
                 </tbody>
             </table>
         </div>
