@@ -23,4 +23,5 @@ public class AppBeanConfig {
     public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();
     }
+
 }

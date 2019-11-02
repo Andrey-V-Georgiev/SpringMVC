@@ -3,6 +3,7 @@ package org.softuni.residentevil.web.controllers;
 import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.models.binding_models.UserRegisterBindingModel;
 import org.softuni.residentevil.domain.models.service_models.UserServiceModel;
+import org.softuni.residentevil.services.CapitalService;
 import org.softuni.residentevil.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -20,11 +22,13 @@ public class AuthController extends BaseController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final CapitalService capitalService;
 
     @Autowired
-    public AuthController(UserService userService, ModelMapper modelMapper) {
+    public AuthController(UserService userService, ModelMapper modelMapper, CapitalService capitalService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.capitalService = capitalService;
     }
 
     @GetMapping("/")
@@ -35,7 +39,11 @@ public class AuthController extends BaseController {
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView home(ModelAndView modelAndView, Principal principal) {
+    public ModelAndView home(ModelAndView modelAndView, Principal principal) throws IOException {
+
+        if(this.capitalService.capitalsTableIsEmpty()) {
+            this.capitalService.seedCapitalsInDB();
+        }
 
         modelAndView.addObject("principal", principal);
         return super.loadView("home", modelAndView);
