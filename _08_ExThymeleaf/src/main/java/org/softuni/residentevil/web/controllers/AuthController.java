@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 
 @Controller
-public class AuthController {
+public class AuthController extends BaseController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
@@ -29,50 +29,47 @@ public class AuthController {
 
     @GetMapping("/")
     public ModelAndView index(ModelAndView modelAndView) {
-        modelAndView.setViewName("index");
-        return modelAndView;
+
+        return super.loadView("index", modelAndView);
     }
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView home(ModelAndView modelAndView, Principal principal) {
+
         modelAndView.addObject("principal", principal);
-        modelAndView.setViewName("home");
-        return modelAndView;
+        return super.loadView("home", modelAndView);
     }
 
     @GetMapping("/login")
-    public ModelAndView login(@RequestParam(required = false) String error, ModelAndView modelAndView) {
+    public ModelAndView login(@RequestParam(required = false) String error,
+                              ModelAndView modelAndView) {
         if (error != null) {
             modelAndView.addObject("error", error);
         }
-        modelAndView.setViewName("login");
-        return modelAndView;
+        return super.loadView("login", modelAndView);
     }
 
     @GetMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ModelAndView register(ModelAndView modelAndView) {
-        modelAndView.setViewName("register");
-        return modelAndView;
+
+        return super.loadView("register", modelAndView);
     }
 
     @PostMapping("/register")
     public ModelAndView registerConfirm(@ModelAttribute(name = "model") UserRegisterBindingModel model,
                                         ModelAndView modelAndView) {
         if (!model.getPassword().equals(model.getConfirmPassword())) {
-            modelAndView.setViewName("register");
-            return modelAndView;
+            return super.loadView("register", modelAndView);
         }
-
         this.userService.registerUser(this.modelMapper.map(model, UserServiceModel.class));
-        modelAndView.setViewName("/login");
-        return modelAndView;
+        return super.loadView("login", modelAndView);
     }
 
     @GetMapping("/unauthorized")
     public ModelAndView unauthorized(ModelAndView modelAndView) {
-        modelAndView.setViewName("unauthorized");
-        return modelAndView;
+
+        return super.loadView("unauthorized", modelAndView);
     }
 }

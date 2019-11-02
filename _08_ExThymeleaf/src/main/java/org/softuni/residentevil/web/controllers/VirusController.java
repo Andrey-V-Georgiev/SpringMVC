@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/viruses")
-public class VirusController {
+public class VirusController extends BaseController {
 
     private final CapitalService capitalService;
     private final VirusService virusService;
@@ -35,53 +35,54 @@ public class VirusController {
     @GetMapping("/add")
     public ModelAndView add(@ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                             ModelAndView modelAndView) {
+
         modelAndView.addObject("capitals", capitals());
         modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
-        modelAndView.setViewName("add-virus");
-        return modelAndView;
+        return super.loadView("add-virus", modelAndView);
     }
 
     @PostMapping("/add")
     public ModelAndView addConfirm(@Valid
                                    @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
-                                   BindingResult bindingResult, ModelAndView modelAndView) {
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
             modelAndView.addObject("capitals", capitals());
-            modelAndView.setViewName("add-virus");
-            return modelAndView;
+            return super.loadView("add-virus", modelAndView);
         }
 
         this.virusService.saveVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class));
-        modelAndView.setViewName("redirect:/viruses/show");
-        return modelAndView;
+        return super.redirectTo("redirect:/viruses/show", modelAndView);
     }
 
     @GetMapping("/show")
     public ModelAndView show(ModelAndView modelAndView) {
+
         List<VirusViewModel> virusViewModels = this.virusService.findAll().stream()
                 .map(v -> this.modelMapper.map(v, VirusViewModel.class))
                 .collect(Collectors.toList());
+
         modelAndView.addObject("virusViewModels", virusViewModels);
-        modelAndView.setViewName("all-viruses");
-        return modelAndView;
+        return super.loadView("all-viruses", modelAndView);
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteVirus(@PathVariable("id") String id, ModelAndView modelAndView) {
+    public ModelAndView deleteVirus(@PathVariable("id") String id,
+                                    ModelAndView modelAndView) {
         try {
             this.virusService.deleteById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.setViewName("/viruses/show");
-        return modelAndView;
+        return super.redirectTo("redirect:/viruses/show", modelAndView);
     }
 
     @GetMapping("/edit/{id}")
     public ModelAndView editVirus(@PathVariable("id") String id,
                                   @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
+
         List<CapitalViewModel> capitals = this.capitalService.findAllCapitals()
                 .stream()
                 .map(c -> this.modelMapper.map(c, CapitalViewModel.class))
@@ -92,25 +93,23 @@ public class VirusController {
 
         virusAddBindingModel = this.modelMapper.map(this.virusService.findById(id), VirusAddBindingModel.class);
         modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
-
-        modelAndView.setViewName("edit-virus");
-        return modelAndView;
+        return super.loadView("edit-virus", modelAndView);
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editVirusConfirm(@Valid @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
-                                         @PathVariable("id") String id, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView editVirusConfirm(@Valid
+                                         @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
+                                         @PathVariable("id") String id,
+                                         BindingResult bindingResult,
+                                         ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
-            modelAndView.setViewName("edit-virus");
-            return modelAndView;
+            return super.loadView("edit-virus", modelAndView);
         }
 
         VirusServiceModel virusServiceModel = this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class);
         this.virusService.editVirus(virusServiceModel, id);
-        modelAndView.setViewName("redirect:/viruses/show");
-
-        return modelAndView;
+        return super.redirectTo("redirect:/viruses/show", modelAndView);
     }
 
     private List<CapitalViewModel> capitals() {
