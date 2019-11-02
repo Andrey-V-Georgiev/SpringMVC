@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+
 @Controller
 public class AuthController {
 
@@ -25,9 +27,23 @@ public class AuthController {
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/")
+    public ModelAndView index(ModelAndView modelAndView) {
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView home(ModelAndView modelAndView, Principal principal) {
+        modelAndView.addObject("principal", principal);
+        modelAndView.setViewName("home");
+        return modelAndView;
+    }
+
     @GetMapping("/login")
     public ModelAndView login(@RequestParam(required = false) String error, ModelAndView modelAndView) {
-        if(error != null) {
+        if (error != null) {
             modelAndView.addObject("error", error);
         }
         modelAndView.setViewName("login");

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Navbar</title>
@@ -8,32 +8,35 @@
 <th:block th:fragment>
     <nav class="navbar navbar-expand-lg navbar-light re-background d-flex bd-highlight">
 
-            <div class="p-2 flex-grow-1 bd-highlight">
+        <div class="p-2 flex-grow-1 bd-highlight">
 
-                <div class="btn-group" role="group" aria-label="Basic example">
-                        <a class="btn btn-lg btn-secondary" th:href="@{/home}">Resident Evil</a>
-                    <th:block th:if="${principal !=null}">
-                            <a th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add Virus</a>
-                            <a th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show All</a>
-                    </th:block>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <div sec:authorize="isAnonymous()">
+                    <a class="btn btn-lg btn-secondary" th:href="@{/}">Resident Evil</a>
                 </div>
-
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/home}" class="btn btn-lg btn-secondary">Home</a>
+                    <a th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add Virus</a>
+                    <a th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show All</a>
+                </div>
             </div>
-            <div class="p-2 bd-highlight">
 
-                <th:block th:if="${principal !=null}">
-                    <form th:action="@{/logout}" th:method="post">
-                        <button class="btn btn-lg btn-secondary">Logout</button>
-                    </form>
-                </th:block>
-                <th:block th:if="${principal == null}">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
-                        <a th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
-                    </div>
-                </th:block>
+        </div>
+        <div class="p-2 bd-highlight">
 
-            </div>
+            <th:block th:if="${principal !=null}">
+                <form th:action="@{/logout}" th:method="post">
+                    <button class="btn btn-lg btn-secondary">Logout</button>
+                </form>
+            </th:block>
+            <th:block th:if="${principal == null}">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
+                    <a th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
+                </div>
+            </th:block>
+
+        </div>
 
     </nav>
 </th:block>

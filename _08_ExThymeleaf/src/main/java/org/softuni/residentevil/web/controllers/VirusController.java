@@ -7,9 +7,7 @@ import org.softuni.residentevil.domain.models.view_models.CapitalViewModel;
 import org.softuni.residentevil.domain.models.view_models.VirusViewModel;
 import org.softuni.residentevil.services.CapitalService;
 import org.softuni.residentevil.services.VirusService;
-import org.softuni.residentevil.web.Pesho;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class VirusController {
                             ModelAndView modelAndView) {
         modelAndView.addObject("capitals", capitals());
         modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
-        modelAndView.setViewName("add");
+        modelAndView.setViewName("add-virus");
         return modelAndView;
     }
 
@@ -50,7 +48,7 @@ public class VirusController {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusBindingModel", virusAddBindingModel);
             modelAndView.addObject("capitals", capitals());
-            modelAndView.setViewName("add");
+            modelAndView.setViewName("add-virus");
             return modelAndView;
         }
 
@@ -65,7 +63,7 @@ public class VirusController {
                 .map(v -> this.modelMapper.map(v, VirusViewModel.class))
                 .collect(Collectors.toList());
         modelAndView.addObject("virusViewModels", virusViewModels);
-        modelAndView.setViewName("all");
+        modelAndView.setViewName("all-viruses");
         return modelAndView;
     }
 
@@ -92,7 +90,7 @@ public class VirusController {
         modelAndView.addObject("capitals", capitals);
         modelAndView.addObject("virusServiceModel", this.virusService.findById(id));
         modelAndView.addObject("virusBindingModel", virusAddBindingModel);
-        modelAndView.setViewName("edit");
+        modelAndView.setViewName("edit-virus");
         return modelAndView;
     }
 
@@ -104,7 +102,7 @@ public class VirusController {
                                          ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusBindingModel", virusAddBindingModel);
-            modelAndView.setViewName("edit");
+            modelAndView.setViewName("edit-virus");
             return modelAndView;
         }
         this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), id);
