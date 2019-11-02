@@ -43,10 +43,10 @@ public class VirusController {
 
     @PostMapping("/add")
     public ModelAndView addConfirm(@Valid
-                                   @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
+                                   @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                                    BindingResult bindingResult, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("virusBindingModel", virusAddBindingModel);
+            modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
             modelAndView.addObject("capitals", capitals());
             modelAndView.setViewName("add-virus");
             return modelAndView;
@@ -80,7 +80,7 @@ public class VirusController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView editVirus(@PathVariable("id") String id,
-                                  @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
+                                  @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
         List<CapitalViewModel> capitals = this.capitalService.findAllCapitals()
                 .stream()
@@ -89,24 +89,25 @@ public class VirusController {
 
         modelAndView.addObject("capitals", capitals);
         modelAndView.addObject("virusServiceModel", this.virusService.findById(id));
-        modelAndView.addObject("virusBindingModel", virusAddBindingModel);
+
+        virusAddBindingModel = this.modelMapper.map(this.virusService.findById(id), VirusAddBindingModel.class);
+        modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
+
         modelAndView.setViewName("edit-virus");
         return modelAndView;
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editVirusConfirm(@Valid
-                                         @ModelAttribute(name = "virusBindingModel") VirusAddBindingModel virusAddBindingModel,
-                                         @PathVariable("id") String id,
-                                         BindingResult bindingResult,
-                                         ModelAndView modelAndView) {
+    public ModelAndView editVirusConfirm(@Valid @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
+                                         @PathVariable("id") String id, BindingResult bindingResult, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("virusBindingModel", virusAddBindingModel);
+            modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
             modelAndView.setViewName("edit-virus");
             return modelAndView;
         }
+
         this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), id);
-        modelAndView.setViewName("edit_view");
+        modelAndView.setViewName("edit-virus");
         return modelAndView;
     }
 

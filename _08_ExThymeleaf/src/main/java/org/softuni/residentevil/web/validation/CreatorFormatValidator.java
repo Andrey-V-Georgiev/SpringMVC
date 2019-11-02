@@ -9,12 +9,8 @@ public class CreatorFormatValidator implements ConstraintValidator<CreatorFormat
 
     @Override
     public boolean isValid(Creator creatorName, ConstraintValidatorContext context) {
-            if(creatorName == null  ) {
-                return false;
-            } else if(!Creator.Corp.toString().equals(creatorName) || !Creator.corp.toString().equals(creatorName)) {
-                return false;
-            } else {
-                return true;
-            }
+
+        boolean validCreator = Creator.Corp.equals(creatorName) || Creator.corp.equals(creatorName);
+        return validCreator;
     }
 }

@@ -7,9 +7,7 @@
 <body>
 <th:block th:fragment>
     <nav class="navbar navbar-expand-lg navbar-light re-background d-flex bd-highlight">
-
         <div class="p-2 flex-grow-1 bd-highlight">
-
             <div class="btn-group" role="group" aria-label="Basic example">
                 <div sec:authorize="isAnonymous()">
                     <a class="btn btn-lg btn-secondary" th:href="@{/}">Resident Evil</a>
@@ -20,24 +18,20 @@
                     <a th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show All</a>
                 </div>
             </div>
-
         </div>
         <div class="p-2 bd-highlight">
-
-            <th:block th:if="${principal !=null}">
+            <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" th:method="post">
                     <button class="btn btn-lg btn-secondary">Logout</button>
                 </form>
-            </th:block>
-            <th:block th:if="${principal == null}">
+            </div>
+            <div sec:authorize="isAnonymous()">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a th:href="@{/login}" class="btn btn-lg btn-secondary">Login</a>
                     <a th:href="@{/register}" class="btn btn-lg btn-secondary">Register</a>
                 </div>
-            </th:block>
-
+            </div>
         </div>
-
     </nav>
 </th:block>
 </body>
