@@ -79,5 +79,6 @@ public class VirusServiceImpl implements VirusService {
         oldVirusServiceModel.setCapitals(virusServiceModel.getCapitals());
 
         this.virusRepository.save(this.modelMapper.map(oldVirusServiceModel, Virus.class));
+
     }
 }

@@ -74,7 +74,7 @@ public class VirusController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.setViewName("redirect:/viruses/show");
+        modelAndView.setViewName("/viruses/show");
         return modelAndView;
     }
 
@@ -106,8 +106,10 @@ public class VirusController {
             return modelAndView;
         }
 
-        this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), id);
-        modelAndView.setViewName("edit-virus");
+        VirusServiceModel virusServiceModel = this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class);
+        this.virusService.editVirus(virusServiceModel, id);
+        modelAndView.setViewName("redirect:/viruses/show");
+
         return modelAndView;
     }
 
