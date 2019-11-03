@@ -13,10 +13,10 @@
     <main class="d-flex justify-content-center">
         <div class="jumbotron mt-md-5 col-md-10 justify-content-center">
 
-            <h1 class="text-center">Spread a new virus!</h1>
+            <h1 class="text-center">Add new virus</h1>
             <hr class="my-4">
             <div class="d-flex justify-content-center">
-                <form class="col-md-4 align-self-center" th:action="@{/viruses/add}" method="post"
+                <form class="col-md-6 align-self-center" th:action="@{/viruses/add}" method="post"
                       th:object="${virusAddBindingModel}">
 
                     <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'text-danger'">

@@ -14,37 +14,47 @@
         <div class="jumbotron mt-md-5 col-md-10 justify-content-center">
 
             <h1 class="text-center">All Viruses</h1>
-            <hr class="my-4">
+
             <table class="table">
-                <thead>
-                <tr class="row">
-                    <th scope="col" class="col-md-2">#</th>
-                    <th scope="col" class="col-md-2">Name</th>
-                    <th scope="col" class="col-md-2">Magnitude</th>
-                    <th scope="col" class="col-md-2">Released On</th>
+
+                <tbody class="mt-6">
+
+                <tr class="row border rounded-top">
+                    <th scope="col" class="col-md-2 border-right">Id</th>
+                    <th scope="col" class="col-md-2 border-right">Name</th>
+                    <th scope="col" class="col-md-2 border-right">Magnitude</th>
+                    <th scope="col" class="col-md-2 border-right">Released On</th>
                     <th scope="col" class="col-md-2"></th>
                     <th scope="col" class="col-md-2"></th>
                 </tr>
-                </thead>
 
-                <tbody>
+                <th:block th:each="virus : ${virusViewModels}">
+                        <tr class="row bg-light rounded">
+                            <td class="col-md-2 pr-0 border-right" th:text="${virus.id}"></td>
+                            <td class="col-md-2 border-right" th:text="${virus.name}"></td>
+                            <td class="col-md-2 border-right" th:text="${virus.magnitude}"></td>
+                            <td class="col-md-2 border-right" th:text="${virus.releasedOn}"></td>
 
-                    <th:block th:each="virus : ${virusViewModels}">
-                        <tr class="row">
-                            <td class="col-md-2" th:text="${virus.id}"> </td>
-                            <td class="col-md-2" th:text="${virus.name}"> </td>
-                            <td class="col-md-2" th:text="${virus.magnitude}"></td>
-                            <td class="col-md-2" th:text="${virus.releasedOn}"> </td>
-                            <td class="col-md-2">
-                                <a class="btn col-md-6 btn-outline-dark" th:text="Edit" th:href="@{/viruses/edit/{id}(id=${virus.id})}"></a>
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                                <a class="btn col-md-8 btn-md btn-outline-dark pr-0" th:text="Edit"
+                                   th:href="@{/viruses/edit/{id}(id=${virus.id})}"></a>
                             </td>
-                            <td class="col-md-2">
-                                <a class="btn col-md-6 btn-outline-danger" th:text="Delete" th:href="@{/viruses/delete/{id}(id=${virus.id})}"></a>
+
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                                <a class="btn col-md-8 btn-md btn-outline-danger pr-0" th:text="Delete"
+                                   th:href="@{/viruses/delete/{id}(id=${virus.id})}"></a>
                             </td>
                         </tr>
-                    </th:block>
+                </th:block>
+
+                <tr class="row border rounded-bottom">
+                    <th scope="col" class="col-md-2">
+                        <a class="btn col-md-6 btn-sm btn-outline-secondary" th:text="|Go back|" th:href="@{/home}"></a>
+                    </th>
+                </tr>
 
                 </tbody>
+
             </table>
         </div>
     </main>
