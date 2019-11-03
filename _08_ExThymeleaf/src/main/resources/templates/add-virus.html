@@ -5,7 +5,8 @@
     <title>Add Viruses</title>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
+
     <header>
         <th:block th:include="~{fragments/navbar}"></th:block>
     </header>
@@ -16,6 +17,7 @@
             <h1 class="text-center">Add new virus</h1>
             <hr class="my-4">
             <div class="d-flex justify-content-center">
+
                 <form class="col-md-6 align-self-center" th:action="@{/viruses/add}" method="post"
                       th:object="${virusAddBindingModel}">
 
@@ -61,9 +63,11 @@
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <th:block th:each="mutation : ${T(org.softuni.residentevil.domain.entities.Mutation).values()}">
+                            <th:block
+                                    th:each="mutation : ${T(org.softuni.residentevil.domain.entities.Mutation).values()}">
                                 <div class="form-check">
-                                    <input th:field="*{mutation}" th:value="${mutation}" class="form-check-input" type="radio"
+                                    <input th:field="*{mutation}" th:value="${mutation}" class="form-check-input"
+                                           type="radio"
                                            name="zombie">
                                     <label class="form-check-label" th:text="${mutation}"></label>
                                 </div>
@@ -124,6 +128,7 @@
             </div>
         </div>
     </main>
+
 </div>
 </body>
 </html>

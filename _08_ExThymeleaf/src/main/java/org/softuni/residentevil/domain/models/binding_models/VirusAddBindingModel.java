@@ -33,7 +33,7 @@ public class VirusAddBindingModel {
     }
 
     @NotNull
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 15)
     public String getName() {
         return name;
     }

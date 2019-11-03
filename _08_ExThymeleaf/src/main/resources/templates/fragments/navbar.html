@@ -13,9 +13,9 @@
                 <a sec:authorize="isAuthenticated()" th:href="@{/home}" class="btn btn-lg btn-secondary">Home</a>
                 <a sec:authorize="isAuthenticated()" th:href="@{/viruses/add}" class="btn btn-lg btn-secondary">Add
                     Virus</a>
-                <a sec:authorize="isAuthenticated()" th:href="@{/viruses/show}" class="btn btn-lg btn-secondary">Show
-                    All</a>
-                <a sec:authorize="hasRole('ADMIN')" th:href="@{/users}" class="btn btn-lg btn-success">Users</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/viruses/all}" class="btn btn-lg btn-secondary">
+                    All viruses</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/users/all}" class="btn btn-lg btn-success">All users</a>
             </div>
         </div>
         <div class="p-3 bd-highlight d-flex align-items-stretch">

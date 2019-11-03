@@ -27,7 +27,7 @@ public class Virus extends BaseEntity {
     public Virus() {
     }
 
-    @Length(min = 3, max = 10)
+    @Length(min = 3, max = 15)
     @Column(name = "name", nullable = false)
     public String getName() {
         return name;

@@ -24,10 +24,10 @@ public class AuthSeeder {
     public void initialDbRolesSeed() {
         if(this.roleRepository.count() == 0) {
             Role admin = new Role();
-            admin.setAuthority("ROLE_ADMIN");
+            admin.setAuthority("ROLE_ROOT");
 
             Role moderator = new Role();
-            moderator.setAuthority("ROLE_MODERATOR");
+            moderator.setAuthority("ROLE_ADMIN");
 
             Role user = new Role();
             user.setAuthority("ROLE_USER");
@@ -42,8 +42,8 @@ public class AuthSeeder {
         Set<Role> roles = new HashSet<>();
 
         if(this.userRepository.count() == 0) {
+            roles.add(this.roleRepository.findByAuthority("ROLE_ROOT"));
             roles.add(this.roleRepository.findByAuthority("ROLE_ADMIN"));
-            roles.add(this.roleRepository.findByAuthority("ROLE_MODERATOR"));
             roles.add(this.roleRepository.findByAuthority("ROLE_USER"));
         } else {
             roles.add(this.roleRepository.findByAuthority("ROLE_USER"));

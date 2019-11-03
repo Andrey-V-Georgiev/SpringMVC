@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+    <title>All Users</title>
+</head>
+<body>
+<div class="container-fluid">
+
+    <header>
+        <th:block th:include="~{fragments/navbar}"></th:block>
+    </header>
+
+    <main class="d-flex justify-content-center">
+        <div class="jumbotron mt-md-5 col-md-10 justify-content-center">
+
+            <h1 class="text-center">All Users</h1>
+
+            <table class="table">
+
+                <tbody class="mt-6">
+
+                <tr class="row border rounded-top">
+                    <th scope="col" class="col-md-2 border-right">Id</th>
+                    <th scope="col" class="col-md-2 border-right">Username</th>
+                    <th scope="col" class="col-md-2 border-right">Role</th>
+                    <th scope="col" class="col-md-2"></th>
+                    <th scope="col" class="col-md-2"></th>
+                    <th scope="col" class="col-md-2"></th>
+                </tr>
+
+                <th:block th:each="user : ${users}">
+
+                    <tr class="row bg-light rounded">
+
+                        <td class="col-md-2 pr-0 border-right" th:text="${user.id}"></td>
+                        <td class="col-md-2 border-right" th:text="${user.username}"></td>
+
+                        <td class="col-md-2 border-right d-flex align-items-center justify-content-center p-0">
+                            <th:block  th:switch="${user.authorities.size()}">
+                                <div th:case="1">
+                                    <div class="btn-group col-md-12 p-0" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-success" disabled>User</button>
+                                        <button type="button" class="btn btn-danger" disabled>Admin</button>
+                                        <button type="button" class="btn btn-danger" disabled>Root</button>
+                                    </div>
+                                </div>
+                                <div th:case="2">
+                                    <div class="btn-group col-md-12 p-0" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-success" disabled>User</button>
+                                        <button type="button" class="btn btn-success" disabled>Admin</button>
+                                        <button type="button" class="btn btn-danger" disabled>Root</button>
+                                    </div>
+                                </div>
+                                <div th:case="3">
+                                    <div class="btn-group col-md-12 p-0" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-success" disabled>User</button>
+                                        <button type="button" class="btn btn-success" disabled>Admin</button>
+                                        <button type="button" class="btn btn-success" disabled>Root</button>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </td>
+
+                        <td class="col-md-2"></td>
+
+                        <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                            <a class="btn col-md-8 btn-md btn-outline-dark pr-0" th:text="Edit"
+                               th:href="@{/users/edit/{id}(id=${user.id})}"></a>
+                        </td>
+                        <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                            <a class="btn col-md-8 btn-md btn-outline-danger pr-0" th:text="Delete"
+                               th:href="@{/users/delete/{id}(id=${user.id})}"></a>
+                        </td>
+                    </tr>
+
+                </th:block>
+
+                <tr class="row border rounded-bottom">
+                    <th scope="col" class="col-md-2">
+                        <a class="btn col-md-6 btn-sm btn-outline-secondary" th:text="|Go back|" th:href="@{/home}"></a>
+                    </th>
+                </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

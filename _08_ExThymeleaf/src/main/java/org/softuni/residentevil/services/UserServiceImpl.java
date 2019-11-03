@@ -3,6 +3,7 @@ package org.softuni.residentevil.services;
 import org.modelmapper.ModelMapper;
 import org.softuni.residentevil.domain.entities.User;
 import org.softuni.residentevil.domain.models.service_models.UserServiceModel;
+import org.softuni.residentevil.domain.models.view_models.UserViewModel;
 import org.softuni.residentevil.repositories.UserRepository;
 import org.softuni.residentevil.utils.AuthSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,6 +46,16 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<UserServiceModel> findAll() {
+        List<UserServiceModel> userServiceModelList = this.userRepository
+                .findAll()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
+        return userServiceModelList;
     }
 
     @Override
