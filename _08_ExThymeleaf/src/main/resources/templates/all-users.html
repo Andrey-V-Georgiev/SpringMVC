@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
     <title>All Users</title>
@@ -37,7 +37,7 @@
                         <td class="col-md-2 border-right" th:text="${user.username}"></td>
 
                         <td class="col-md-2 border-right d-flex align-items-center justify-content-center p-0">
-                            <th:block  th:switch="${user.authorities.size()}">
+                            <th:block th:switch="${user.authorities.size()}">
                                 <div th:case="1">
                                     <div class="btn-group col-md-12 p-0" role="group" aria-label="...">
                                         <button type="button" class="btn btn-success" disabled>User</button>
@@ -63,22 +63,29 @@
                         </td>
 
                         <td class="col-md-2"></td>
-
-                        <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
-                            <a class="btn col-md-8 btn-md btn-outline-dark pr-0" th:text="Edit"
-                               th:href="@{/users/edit/{id}(id=${user.id})}"></a>
-                        </td>
-                        <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
-                            <a class="btn col-md-8 btn-md btn-outline-danger pr-0" th:text="Delete"
-                               th:href="@{/users/delete/{id}(id=${user.id})}"></a>
-                        </td>
+                        <th:block th:if="${user.authorities.size() < 3}">
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                                <a class="btn col-md-8 btn-md btn-outline-dark pr-0" th:text="Edit"
+                                   th:href="@{/users/edit/{id}(id=${user.id})}"></a>
+                            </td>
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                                <a class="btn col-md-8 btn-md btn-outline-danger pr-0" th:text="Delete"
+                                   th:href="@{/users/delete/{id}(id=${user.id})}"></a>
+                            </td>
+                        </th:block>
+                        <th:block th:if="${user.authorities.size() == 3}">
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                            </td>
+                            <td class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+                            </td>
+                        </th:block>
                     </tr>
 
                 </th:block>
 
                 <tr class="row border rounded-bottom">
                     <th scope="col" class="col-md-2">
-                        <a class="btn col-md-6 btn-sm btn-outline-secondary" th:text="|Go back|" th:href="@{/home}"></a>
+                        <a class="btn btn-sm border-0"></a>
                     </th>
                 </tr>
 

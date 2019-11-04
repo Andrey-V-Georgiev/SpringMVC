@@ -95,6 +95,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isRoot(String id) {
+        User user = this.userRepository.findById(id).orElse(null);
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        Role rootRole  = this.roleRepository.findByAuthority("ROLE_ROOT");
+        return userServiceModel.getAuthorities().contains(rootRole);
+    }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        try {
+            this.userRepository.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Something went wrong!");
+        }
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));

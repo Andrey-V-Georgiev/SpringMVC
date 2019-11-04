@@ -17,4 +17,8 @@ public interface UserService extends UserDetailsService {
     UserServiceModel findById(String id);
 
     void editUser(String id, String role);
+
+    boolean isRoot(String id);
+
+    void deleteById(String id) throws Exception;
 }

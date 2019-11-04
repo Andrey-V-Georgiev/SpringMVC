@@ -53,11 +53,26 @@ public class UserController extends BaseController {
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editUserConfirm(@PathVariable("id") String id,
-                                         @ModelAttribute(name = "userEditBindingModel") UserEditBindingModel userEditBindingModel,
-                                         ModelAndView modelAndView) {
-       String role = userEditBindingModel.getAuthorities();
+                                        @ModelAttribute(name = "userEditBindingModel") UserEditBindingModel userEditBindingModel,
+                                        ModelAndView modelAndView) {
+        if(this.userService.isRoot(id)) {
+            return super.redirectTo("redirect:/unauthorized", modelAndView);
+        }
+
+        String role = userEditBindingModel.getAuthorities();
 
         this.userService.editUser(id, role);
+        return super.redirectTo("redirect:/users/all", modelAndView);
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteVirus(@PathVariable("id") String id,
+                                    ModelAndView modelAndView) {
+        try {
+            this.userService.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return super.redirectTo("redirect:/users/all", modelAndView);
     }
 }
