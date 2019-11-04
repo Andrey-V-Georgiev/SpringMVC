@@ -16,6 +16,7 @@ import java.util.List;
 
 public class VirusAddBindingModel {
 
+    private String id;
     private String name;
     private String description;
     private String sideEffects;
@@ -30,6 +31,14 @@ public class VirusAddBindingModel {
     private List<Capital> capitals;
 
     public VirusAddBindingModel() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @NotNull

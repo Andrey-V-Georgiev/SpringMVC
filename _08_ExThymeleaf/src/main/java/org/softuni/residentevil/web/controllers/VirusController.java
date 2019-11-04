@@ -77,7 +77,7 @@ public class VirusController extends BaseController {
     public ModelAndView editVirus(@PathVariable("virusID") String virusID,
                                   @ModelAttribute(name = "virusAddBindingModel") VirusAddBindingModel virusAddBindingModel,
                                   ModelAndView modelAndView) {
-
+        virusAddBindingModel.setId(virusID);
         modelAndView.addObject("capitals",  this.listMapper.mapCSMtoCVM(this.capitalService.findAllCapitals()));
         modelAndView.addObject("virusID", virusID);
 
@@ -93,14 +93,13 @@ public class VirusController extends BaseController {
                                          BindingResult bindingResult,
                                          ModelAndView modelAndView) {
 
-        modelAndView.addObject("virusID", virusID);
-
+        virusAddBindingModel.setId(virusID);
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("virusAddBindingModel", virusAddBindingModel);
             modelAndView.addObject("capitals", this.listMapper.mapCSMtoCVM(this.capitalService.findAllCapitals()));
             return super.loadView("edit-virus", modelAndView);
         }
-        this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class), virusID);
+        this.virusService.editVirus(this.modelMapper.map(virusAddBindingModel, VirusServiceModel.class));
         return super.redirectTo("redirect:/viruses/all", modelAndView);
     }
 

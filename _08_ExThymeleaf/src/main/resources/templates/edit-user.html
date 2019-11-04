@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+    <title>Edit User</title>
+</head>
+
+<body>
+<div class="container-fluid">
+    <header>
+        <th:block th:include="~{fragments/navbar}"></th:block>
+    </header>
+
+    <main class="d-flex justify-content-center">
+        <div class="jumbotron mt-md-5 col-md-3">
+
+            <form th:action="@{/users/edit/{id}(id=${userEditBindingModel.getId()})}" th:method="post" th:object="${userEditBindingModel}">
+                <div class="login-form-main-message"></div>
+                <div class="main-login-form">
+
+                    <div class="login-group">
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                               <h6>
+                                   Id:
+                               </h6>
+                               <p th:text="${userEditBindingModel.getId()}"></p>
+                               <h6>
+                                   Username:
+                               </h6>
+                               <p th:text="${userEditBindingModel.getUsername()}"></p>
+                               <h6>
+                                   Email:
+                               </h6>
+                               <p th:text="${userEditBindingModel.getEmail()}"></p>
+                            </li>
+                        </ul>
+
+                        <div class="row px-4 my-4">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input th:field="*{authorities}" th:value="*{'ROLE_USER'}" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1" th:text="'User'"></label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input th:field="*{authorities}" th:value="*{'ROLE_ADMIN'}" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                    <label class="form-check-label" for="exampleRadios2" th:text="Admin"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-dark btn-lg col-12">Edit</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </div>
+            </form>
+
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -17,5 +17,5 @@ public interface VirusService {
 
     void deleteById(String id) throws Exception;
 
-    void editVirus(VirusServiceModel map, String id);
+    void editVirus(VirusServiceModel map);
 }

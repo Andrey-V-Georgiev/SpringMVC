@@ -60,13 +60,12 @@ public class VirusServiceImpl implements VirusService {
     }
 
     @Override
-    public void editVirus(VirusServiceModel virusServiceModel, String id) {
+    public void editVirus(VirusServiceModel virusServiceModel) {
 
-        try {
             VirusServiceModel oldVirusServiceModel = this.modelMapper
-                    .map(this.virusRepository.findById(id), VirusServiceModel.class);
+                    .map(this.virusRepository.findById(virusServiceModel.getId()), VirusServiceModel.class);
 
-            oldVirusServiceModel.setId(id);
+            oldVirusServiceModel.setId(virusServiceModel.getId());
             oldVirusServiceModel.setName(virusServiceModel.getName());
             oldVirusServiceModel.setDescription(virusServiceModel.getDescription());
             oldVirusServiceModel.setSideEffects(virusServiceModel.getSideEffects());
@@ -81,10 +80,5 @@ public class VirusServiceImpl implements VirusService {
             oldVirusServiceModel.setCapitals(virusServiceModel.getCapitals());
 
             this.virusRepository.save(this.modelMapper.map(oldVirusServiceModel, Virus.class));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
     }
 }

@@ -1,9 +1,10 @@
 package org.softuni.residentevil.services;
 
 import org.modelmapper.ModelMapper;
+import org.softuni.residentevil.domain.entities.Role;
 import org.softuni.residentevil.domain.entities.User;
 import org.softuni.residentevil.domain.models.service_models.UserServiceModel;
-import org.softuni.residentevil.domain.models.view_models.UserViewModel;
+import org.softuni.residentevil.repositories.RoleRepository;
 import org.softuni.residentevil.repositories.UserRepository;
 import org.softuni.residentevil.utils.AuthSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,13 +25,15 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder encoder;
     private final AuthSeeder authSeeder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder, AuthSeeder authSeeder) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder encoder, AuthSeeder authSeeder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.encoder = encoder;
         this.authSeeder = authSeeder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -56,6 +61,37 @@ public class UserServiceImpl implements UserService {
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .collect(Collectors.toList());
         return userServiceModelList;
+    }
+
+    @Override
+    public UserServiceModel findById(String id) {
+        User user = this.userRepository.findById(id).orElse(null);
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        return userServiceModel;
+    }
+
+    @Override
+    public void editUser(String id, String role) {
+
+        User user = this.userRepository.findById(id).orElse(null);
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+
+        Role userRole = this.roleRepository.findByAuthority("ROLE_USER");
+        Role adminRole = this.roleRepository.findByAuthority("ROLE_ADMIN");
+        Set<Role> newRoles = new HashSet<>();
+
+        switch (role) {
+            case "ROLE_USER":
+                newRoles.add(userRole);
+                break;
+            case "ROLE_ADMIN":
+                newRoles.add(userRole);
+                newRoles.add(adminRole);
+                break;
+        }
+
+        userServiceModel.setAuthorities(newRoles);
+        this.userRepository.save(this.modelMapper.map(userServiceModel, User.class));
     }
 
     @Override
