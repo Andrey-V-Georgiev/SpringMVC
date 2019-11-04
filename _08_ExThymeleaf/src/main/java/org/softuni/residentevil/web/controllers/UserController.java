@@ -68,6 +68,10 @@ public class UserController extends BaseController {
     @GetMapping("/delete/{id}")
     public ModelAndView deleteVirus(@PathVariable("id") String id,
                                     ModelAndView modelAndView) {
+        if(this.userService.isRoot(id)) {
+            return super.redirectTo("redirect:/unauthorized", modelAndView);
+        }
+
         try {
             this.userService.deleteById(id);
         } catch (Exception e) {
